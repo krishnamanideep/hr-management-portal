@@ -33,7 +33,7 @@ const Sidebar = ({ activeTab, setActiveTab, isOpen, setIsOpen }) => {
                 {menuItems.map((item) => (
                     <div
                         key={item.id}
-                        className={`nav - item ${activeTab === item.id ? 'active' : ''} `}
+                        className={`nav-item ${activeTab === item.id ? 'active' : ''}`}
                         onClick={() => setActiveTab(item.id)}
                     >
                         {item.icon}
@@ -51,7 +51,9 @@ const Sidebar = ({ activeTab, setActiveTab, isOpen, setIsOpen }) => {
                     alignItems: 'center',
                     justifyContent: 'center',
                     border: '1px solid var(--glass-border)',
-                    color: 'var(--text-muted)'
+                    color: 'var(--text-muted)',
+                    cursor: 'pointer',
+                    borderRadius: '8px'
                 }}
                 onClick={() => setIsOpen(!isOpen)}
             >

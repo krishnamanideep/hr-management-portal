@@ -62,23 +62,17 @@ const Login = ({ onLogin }) => {
                     <p style={{ color: 'var(--text-muted)' }}>Sign in to manage employees and attendance</p>
                 </div>
 
-                <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+                <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
                     <div>
                         <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.875rem', color: 'var(--text-muted)' }}>Email Address</label>
-                        <div className="glass" style={{ display: 'flex', alignItems: 'center', padding: '0 1rem' }}>
-                            <Mail size={18} color="var(--text-muted)" />
+                        <div style={{ position: 'relative' }}>
+                            <Mail size={18} color="var(--text-muted)" style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)' }} />
                             <input
                                 type="email"
+                                className="glass-input"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
-                                style={{
-                                    border: 'none',
-                                    background: 'transparent',
-                                    color: 'var(--text-main)',
-                                    padding: '0.875rem 1rem',
-                                    width: '100%',
-                                    outline: 'none'
-                                }}
+                                style={{ paddingLeft: '2.5rem' }}
                                 placeholder="Enter your email"
                                 required
                             />
@@ -87,20 +81,14 @@ const Login = ({ onLogin }) => {
 
                     <div>
                         <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.875rem', color: 'var(--text-muted)' }}>Password</label>
-                        <div className="glass" style={{ display: 'flex', alignItems: 'center', padding: '0 1rem' }}>
-                            <Lock size={18} color="var(--text-muted)" />
+                        <div style={{ position: 'relative' }}>
+                            <Lock size={18} color="var(--text-muted)" style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)' }} />
                             <input
                                 type="password"
+                                className="glass-input"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                style={{
-                                    border: 'none',
-                                    background: 'transparent',
-                                    color: 'var(--text-main)',
-                                    padding: '0.875rem 1rem',
-                                    width: '100%',
-                                    outline: 'none'
-                                }}
+                                style={{ paddingLeft: '2.5rem' }}
                                 placeholder="Enter password"
                                 required
                             />
@@ -114,9 +102,9 @@ const Login = ({ onLogin }) => {
                             gap: '0.5rem',
                             color: 'var(--danger)',
                             fontSize: '0.875rem',
-                            background: 'rgba(239, 68, 68, 0.1)',
+                            background: 'var(--danger-light)',
                             padding: '0.75rem',
-                            borderRadius: '8px'
+                            borderRadius: '10px'
                         }}>
                             <AlertCircle size={16} />
                             <span>{error}</span>
@@ -126,19 +114,12 @@ const Login = ({ onLogin }) => {
                     <button
                         type="submit"
                         disabled={loading}
-                        className="glass"
+                        className="btn-primary"
                         style={{
-                            padding: '1rem',
-                            marginTop: '0.5rem',
-                            background: 'var(--accent)',
-                            color: 'white',
-                            fontWeight: 700,
-                            cursor: loading ? 'not-allowed' : 'pointer',
+                            width: '100%',
+                            padding: '0.875rem',
                             fontSize: '1rem',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            gap: '0.75rem'
+                            justifyContent: 'center'
                         }}
                     >
                         {loading ? <Loader2 size={18} className="animate-spin" /> : (isRegistering ? 'Create Admin Account' : 'Sign In')}
