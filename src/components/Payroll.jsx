@@ -38,7 +38,7 @@ const Payroll = ({ employees, attendanceRecords }) => {
             // Iterate through each day of the month
             for (let d = 1; d <= daysInMonth; d++) {
                 const dateStr = `${year}-${String(month).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
-                if (attendanceRecords[dateStr]?.includes(emp.id)) {
+                if (attendanceRecords[dateStr]?.presentIds?.includes(emp.id)) {
                     presentDays++;
                 }
             }

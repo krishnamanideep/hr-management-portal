@@ -5,7 +5,7 @@ import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveCo
 const Dashboard = ({ employees, attendanceRecords }) => {
     // Calculate today's attendance
     const today = new Date().toISOString().split('T')[0];
-    const todayPresent = attendanceRecords[today]?.length || 0;
+    const todayPresent = attendanceRecords[today]?.presentIds?.length || 0;
     const todayAbsent = employees.length - todayPresent;
     const attendanceRate = employees.length > 0 ? ((todayPresent / employees.length) * 100).toFixed(1) : 0;
 
@@ -18,7 +18,7 @@ const Dashboard = ({ employees, attendanceRecords }) => {
                 stats[dept] = { total: 0, present: 0 };
             }
             stats[dept].total++;
-            if (attendanceRecords[today]?.includes(emp.id)) {
+            if (attendanceRecords[today]?.presentIds?.includes(emp.id)) {
                 stats[dept].present++;
             }
         });
@@ -37,7 +37,7 @@ const Dashboard = ({ employees, attendanceRecords }) => {
             const date = new Date();
             date.setDate(date.getDate() - i);
             const dateStr = date.toISOString().split('T')[0];
-            const present = attendanceRecords[dateStr]?.length || 0;
+            const present = attendanceRecords[dateStr]?.presentIds?.length || 0;
             trend.push({
                 date: date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
                 present,

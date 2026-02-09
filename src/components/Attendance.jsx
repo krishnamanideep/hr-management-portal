@@ -171,7 +171,7 @@ const Attendance = ({ employees, attendanceRecords }) => {
                     {blanks.map(i => <div key={`b-${i}`} />)}
                     {days.map(d => {
                         const dateStr = `${year}-${String(month).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
-                        const isPresent = attendanceRecords[dateStr]?.includes(selectedEmployeeId);
+                        const isPresent = attendanceRecords[dateStr]?.presentIds?.includes(selectedEmployeeId);
                         const isToday = dateStr === new Date().toISOString().split('T')[0];
 
                         return (
