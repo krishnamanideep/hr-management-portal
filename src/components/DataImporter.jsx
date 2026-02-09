@@ -230,23 +230,6 @@ const DataImporter = () => {
                 >
                     <Download size={14} /> Download Template
                 </button>
-                <div style={{ marginTop: '3rem', display: 'flex', gap: '1rem', justifyContent: 'center' }}>
-                    <button
-                        onClick={handleSeedAttendance}
-                        disabled={loading || seeding}
-                        style={{
-                            background: 'transparent',
-                            border: 'none',
-                            color: 'var(--text-muted)',
-                            fontSize: '0.75rem',
-                            cursor: 'pointer',
-                            opacity: 0.5,
-                            textDecoration: 'underline'
-                        }}
-                    >
-                        [Dev] Seed Jan '26 Attendance
-                    </button>
-                </div>
             </p>
 
             <label className="glass" style={{
