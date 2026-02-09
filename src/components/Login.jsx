@@ -2,23 +2,14 @@ import React, { useState } from 'react';
 import { Lock, Mail, AlertCircle, Loader2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { auth } from '../firebase';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
 
 const Login = ({ onLogin }) => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
-    const [loading, setLoading] = useState(false);
-    const [isRegistering, setIsRegistering] = useState(false);
-
+    // ...
     const handleSubmit = async (e) => {
-        e.preventDefault();
-        setError('');
-        setLoading(true);
-
+        // ...
         try {
             if (isRegistering) {
-                const { createUserWithEmailAndPassword } = await import('firebase/auth');
                 await createUserWithEmailAndPassword(auth, email, password);
             } else {
                 await signInWithEmailAndPassword(auth, email, password);
