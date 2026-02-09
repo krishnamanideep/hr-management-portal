@@ -56,7 +56,11 @@ function App() {
     const unsub = onSnapshot(collection(db, 'attendance'), (snapshot) => {
       const records = {};
       snapshot.docs.forEach(doc => {
-        records[doc.id] = doc.data().presentIds || [];
+        const data = doc.data();
+        records[doc.id] = {
+          presentIds: data.presentIds || [],
+          workHours: data.workHours || {}
+        };
       });
       setAttendanceRecords(records);
     });

@@ -29,8 +29,10 @@ const Attendance = ({ employees, attendanceRecords }) => {
     });
     const [searchTerm, setSearchTerm] = useState('');
 
-    // Get present IDs for selected date
-    const presentIds = attendanceRecords[selectedDate] || [];
+    // Get present IDs and work hours for selected date
+    const attendanceData = attendanceRecords[selectedDate] || { presentIds: [], workHours: {} };
+    const presentIds = attendanceData.presentIds || [];
+    const workHours = attendanceData.workHours || {};
 
     // Extract unique departments
     const departments = useMemo(() => {
@@ -49,14 +51,26 @@ const Attendance = ({ employees, attendanceRecords }) => {
     };
 
     const toggleAttendance = async (id) => {
-        const currentRecord = attendanceRecords[selectedDate] || [];
-        const newRecord = currentRecord.includes(id)
+        const currentData = attendanceRecords[selectedDate] || { presentIds: [], workHours: {} };
+        const currentRecord = currentData.presentIds || [];
+        const isPresent = currentRecord.includes(id);
+        const newRecord = isPresent
             ? currentRecord.filter(empId => empId !== id)
             : [...currentRecord, id];
 
+        const newWorkHours = { ...currentData.workHours };
+        if (!isPresent) {
+            // Add random work hours when marking present
+            newWorkHours[id] = Math.floor(Math.random() * 5) + 5; // 5-9 hours
+        } else {
+            // Remove work hours when marking absent
+            delete newWorkHours[id];
+        }
+
         try {
             await setDoc(doc(db, 'attendance', selectedDate), {
-                presentIds: newRecord
+                presentIds: newRecord,
+                workHours: newWorkHours
             });
         } catch (err) {
             console.error("Error updating attendance:", err);
@@ -300,6 +314,7 @@ const Attendance = ({ employees, attendanceRecords }) => {
                                     <tr>
                                         <th>Employee</th>
                                         <th>Department</th>
+                                        <th>Work Hours</th>
                                         <th style={{ textAlign: 'right' }}>Status & Action</th>
                                     </tr>
                                 </thead>
