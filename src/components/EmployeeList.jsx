@@ -111,9 +111,9 @@ const EmployeeList = ({ employees }) => {
                     <div style={{ marginTop: '0.5rem' }}>
                         <h4 style={{ fontSize: '0.75rem', color: 'var(--accent)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '1rem' }}>Salary & Shift</h4>
                         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1rem' }}>
-                            <div><label style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Basic</label><input type="number" className="glass-input" value={data.salary_structure?.basic} onChange={(e) => setData({ ...data, salary_structure: { ...data.salary_structure, basic: Number(e.target.value) } })} /></div>
-                            <div><label style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>HRA</label><input type="number" className="glass-input" value={data.salary_structure?.hra} onChange={(e) => setData({ ...data, salary_structure: { ...data.salary_structure, hra: Number(e.target.value) } })} /></div>
-                            <div><label style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Allowances</label><input type="number" className="glass-input" value={data.salary_structure?.allowances} onChange={(e) => setData({ ...data, salary_structure: { ...data.salary_structure, allowances: Number(e.target.value) } })} /></div>
+                            <div><label style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Basic</label><input type="number" className="glass-input" value={data.salary_structure?.basic || 0} onChange={(e) => setData({ ...data, salary_structure: { ...(data.salary_structure || {}), basic: Number(e.target.value) } })} /></div>
+                            <div><label style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>HRA</label><input type="number" className="glass-input" value={data.salary_structure?.hra || 0} onChange={(e) => setData({ ...data, salary_structure: { ...(data.salary_structure || {}), hra: Number(e.target.value) } })} /></div>
+                            <div><label style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Allowances</label><input type="number" className="glass-input" value={data.salary_structure?.allowances || 0} onChange={(e) => setData({ ...data, salary_structure: { ...(data.salary_structure || {}), allowances: Number(e.target.value) } })} /></div>
                         </div>
                     </div>
 
