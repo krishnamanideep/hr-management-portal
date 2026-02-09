@@ -3,13 +3,24 @@ import { Users, UserCheck, UserX, TrendingUp, Building2, Calendar, Award, Clock 
 import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, LineChart, Line, Legend } from 'recharts';
 
 const Dashboard = ({ employees, attendanceRecords }) => {
-    // Calculate today's attendance
+    // Filter to only Field Team employees (ZMs and FOAs) for attendance tracking
+    const fieldTeamEmployees = useMemo(() => {
+        return employees.filter(emp => {
+            const position = emp.position || '';
+            return position.includes('Zonal Manager') ||
+                position.includes('Field Operation Agent') ||
+                position.includes('FOA') ||
+                position.includes('ZM');
+        });
+    }, [employees]);
+
+    // Calculate today's attendance (Field Team only)
     const today = new Date().toISOString().split('T')[0];
     const todayPresent = attendanceRecords[today]?.presentIds?.length || 0;
-    const todayAbsent = employees.length - todayPresent;
-    const attendanceRate = employees.length > 0 ? ((todayPresent / employees.length) * 100).toFixed(1) : 0;
+    const todayAbsent = fieldTeamEmployees.length - todayPresent;
+    const attendanceRate = fieldTeamEmployees.length > 0 ? ((todayPresent / fieldTeamEmployees.length) * 100).toFixed(1) : 0;
 
-    // Department statistics
+    // Department statistics (all employees for chart)
     const departmentStats = useMemo(() => {
         const stats = {};
         employees.forEach(emp => {
@@ -30,7 +41,7 @@ const Dashboard = ({ employees, attendanceRecords }) => {
         })).sort((a, b) => b.total - a.total);
     }, [employees, attendanceRecords, today]);
 
-    // Last 7 days attendance trend
+    // Last 7 days attendance trend (Field Team only)
     const attendanceTrend = useMemo(() => {
         const trend = [];
         for (let i = 6; i >= 0; i--) {
@@ -41,12 +52,12 @@ const Dashboard = ({ employees, attendanceRecords }) => {
             trend.push({
                 date: date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
                 present,
-                absent: employees.length - present,
-                rate: employees.length > 0 ? ((present / employees.length) * 100).toFixed(1) : 0
+                absent: fieldTeamEmployees.length - present,
+                rate: fieldTeamEmployees.length > 0 ? ((present / fieldTeamEmployees.length) * 100).toFixed(1) : 0
             });
         }
         return trend;
-    }, [employees, attendanceRecords]);
+    }, [fieldTeamEmployees, attendanceRecords]);
 
     // Department distribution for pie chart
     const departmentDistribution = useMemo(() => {

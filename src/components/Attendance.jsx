@@ -18,11 +18,22 @@ import { db } from '../firebase';
 import { doc, setDoc } from 'firebase/firestore';
 
 const Attendance = ({ employees, attendanceRecords }) => {
+    // Filter to only Field Team employees (ZMs and FOAs) for attendance tracking
+    const fieldTeamEmployees = useMemo(() => {
+        return employees.filter(emp => {
+            const position = emp.position || '';
+            return position.includes('Zonal Manager') ||
+                position.includes('Field Operation Agent') ||
+                position.includes('FOA') ||
+                position.includes('ZM');
+        });
+    }, [employees]);
+
     const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
     const [filter, setFilter] = useState('all'); // 'all', 'present', 'absent'
     const [selectedDept, setSelectedDept] = useState('All Departments');
     const [viewMode, setViewMode] = useState('daily'); // 'daily' or 'monthly'
-    const [selectedEmployeeId, setSelectedEmployeeId] = useState(employees[0]?.id || '');
+    const [selectedEmployeeId, setSelectedEmployeeId] = useState(fieldTeamEmployees[0]?.id || '');
     const [currentMonth, setCurrentMonth] = useState(() => {
         const d = new Date();
         return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
@@ -36,9 +47,9 @@ const Attendance = ({ employees, attendanceRecords }) => {
 
     // Extract unique departments
     const departments = useMemo(() => {
-        const depts = new Set(employees.map(e => e.department).filter(Boolean));
+        const depts = new Set(fieldTeamEmployees.map(e => e.department).filter(Boolean));
         return ['All Departments', ...Array.from(depts).sort()];
-    }, [employees]);
+    }, [fieldTeamEmployees]);
 
     const handleDateChange = (date) => {
         setSelectedDate(date);
@@ -80,7 +91,7 @@ const Attendance = ({ employees, attendanceRecords }) => {
 
     const markAllPresent = async () => {
         if (window.confirm(`Mark all employees as present for ${selectedDate}?`)) {
-            const allIds = employees.map(e => e.id);
+            const allIds = fieldTeamEmployees.map(e => e.id);
             try {
                 await setDoc(doc(db, 'attendance', selectedDate), {
                     presentIds: allIds
@@ -118,7 +129,7 @@ const Attendance = ({ employees, attendanceRecords }) => {
         XLSX.writeFile(wb, `Attendance_${selectedDate}.xlsx`);
     };
 
-    const filteredEmployees = employees.filter(emp => {
+    const filteredEmployees = fieldTeamEmployees.filter(emp => {
         const isPresent = presentIds.includes(emp.id);
         const matchesFilter = filter === 'all'
             ? true
@@ -148,7 +159,7 @@ const Attendance = ({ employees, attendanceRecords }) => {
                                 onChange={(e) => setSelectedEmployeeId(e.target.value)}
                                 style={{ minWidth: '220px' }}
                             >
-                                {employees.map(e => <option key={e.id} value={e.id}>{e.name}</option>)}
+                                {fieldTeamEmployees.map(e => <option key={e.id} value={e.id}>{e.name}</option>)}
                             </select>
                         </div>
                         <input
