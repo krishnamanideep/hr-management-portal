@@ -33,12 +33,19 @@ const Dashboard = ({ employees, attendanceRecords }) => {
                 stats[dept].present++;
             }
         });
-        return Object.entries(stats).map(([name, data]) => ({
-            name,
-            total: data.total,
-            present: data.present,
-            rate: ((data.present / data.total) * 100).toFixed(1)
-        })).sort((a, b) => b.total - a.total);
+        return Object.entries(stats)
+            .map(([name, data]) => ({
+                name,
+                total: data.total,
+                present: data.present,
+                rate: ((data.present / data.total) * 100).toFixed(1)
+            }))
+            .filter(dept => {
+                // Only show Field Team departments (zones) in performance table
+                const fieldDepts = ['West Zone', 'Karaikal Zone', 'Central Zone', 'North Zone', 'South Zone', 'East Zone', 'Field Operations'];
+                return fieldDepts.includes(dept.name);
+            })
+            .sort((a, b) => b.total - a.total);
     }, [employees, attendanceRecords, today]);
 
     // Last 7 days attendance trend (Field Team only)
