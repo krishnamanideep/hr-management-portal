@@ -337,6 +337,16 @@ const Attendance = ({ employees, attendanceRecords }) => {
                                                 <td>
                                                     <span className="badge-dept">{emp.department}</span>
                                                 </td>
+                                                <td>
+                                                    {isPresent && workHours[emp.id] ? (
+                                                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                                                            <Clock size={14} color="var(--accent)" />
+                                                            <span style={{ fontWeight: 600, color: 'var(--accent)' }}>{workHours[emp.id]} hrs</span>
+                                                        </div>
+                                                    ) : (
+                                                        <span style={{ color: 'var(--text-muted)', fontSize: '0.875rem' }}>-</span>
+                                                    )}
+                                                </td>
                                                 <td style={{ textAlign: 'right' }}>
                                                     <button
                                                         onClick={() => toggleAttendance(emp.id)}
