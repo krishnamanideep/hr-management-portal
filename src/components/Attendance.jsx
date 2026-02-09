@@ -172,6 +172,7 @@ const Attendance = ({ employees, attendanceRecords }) => {
                     {days.map(d => {
                         const dateStr = `${year}-${String(month).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
                         const isPresent = attendanceRecords[dateStr]?.presentIds?.includes(selectedEmployeeId);
+                        const workHoursForDay = attendanceRecords[dateStr]?.workHours?.[selectedEmployeeId];
                         const isToday = dateStr === new Date().toISOString().split('T')[0];
 
                         return (
@@ -192,7 +193,17 @@ const Attendance = ({ employees, attendanceRecords }) => {
                                 className="calendar-day"
                             >
                                 <span style={{ fontSize: '1rem', fontWeight: 700, color: isPresent ? 'var(--success)' : 'var(--text-main)' }}>{d}</span>
-                                {isPresent && <div style={{ fontSize: '0.7rem', background: 'var(--success)', color: 'white', padding: '4px 8px', borderRadius: '6px', textAlign: 'center', fontWeight: 600 }}>PRESENT</div>}
+                                {isPresent && (
+                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+                                        <div style={{ fontSize: '0.7rem', background: 'var(--success)', color: 'white', padding: '4px 8px', borderRadius: '6px', textAlign: 'center', fontWeight: 600 }}>PRESENT</div>
+                                        {workHoursForDay && (
+                                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.25rem', fontSize: '0.7rem', color: 'var(--accent)', fontWeight: 600 }}>
+                                                <Clock size={12} />
+                                                {workHoursForDay} hrs
+                                            </div>
+                                        )}
+                                    </div>
+                                )}
                             </div>
                         );
                     })}
