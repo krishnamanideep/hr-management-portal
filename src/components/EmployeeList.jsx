@@ -3,7 +3,6 @@ import { Search, Trash2, Mail, Building2, Briefcase, Phone, X, Edit2, Plus } fro
 import { motion, AnimatePresence } from 'framer-motion';
 import { db } from '../firebase';
 import { doc, setDoc, deleteDoc } from 'firebase/firestore';
-import { logAudit } from '../utils/auditLogger';
 
 const EmployeeList = ({ employees }) => {
     const [searchTerm, setSearchTerm] = useState('');
@@ -33,7 +32,6 @@ const EmployeeList = ({ employees }) => {
         const employee = { ...newEmployee, id, status: 'ACTIVE' };
         try {
             await setDoc(doc(db, 'employees', id), employee);
-            await logAudit('EMPLOYEE_CREATE', `Added new employee: ${employee.name}`, { before: null, after: employee });
             setIsAdding(false);
             setNewEmployee({
                 name: '', position: '', department: '', email: '', phone: '', status: 'ACTIVE',
@@ -52,7 +50,6 @@ const EmployeeList = ({ employees }) => {
         const before = employees.find(emp => emp.id === editingEmployee.id);
         try {
             await setDoc(doc(db, 'employees', editingEmployee.id), editingEmployee);
-            await logAudit('EMPLOYEE_UPDATE', `Updated employee: ${editingEmployee.name}`, { before, after: editingEmployee });
             setEditingEmployee(null);
         } catch (err) {
             console.error(err);
@@ -65,7 +62,6 @@ const EmployeeList = ({ employees }) => {
             const before = employees.find(emp => emp.id === id);
             try {
                 await deleteDoc(doc(db, 'employees', id));
-                await logAudit('EMPLOYEE_DELETE', `Removed employee: ${before?.name || id}`, { before, after: null });
             } catch (err) {
                 console.error(err);
                 alert("Failed to delete employee.");

@@ -5,9 +5,7 @@ import {
     CalendarCheck,
     FileUp,
     ChevronLeft,
-    ChevronRight,
-
-    ClipboardList
+    ChevronRight
 } from 'lucide-react';
 
 const Sidebar = ({ activeTab, setActiveTab, isOpen, setIsOpen }) => {
@@ -15,8 +13,6 @@ const Sidebar = ({ activeTab, setActiveTab, isOpen, setIsOpen }) => {
         { id: 'dashboard', label: 'Dashboard', icon: <LayoutDashboard size={20} /> },
         { id: 'employees', label: 'Employees', icon: <Users size={20} /> },
         { id: 'attendance', label: 'Attendance', icon: <CalendarCheck size={20} /> },
-
-        { id: 'audit', label: 'Audit Logs', icon: <ClipboardList size={20} /> },
         { id: 'import', label: 'Import Data', icon: <FileUp size={20} /> },
     ];
 

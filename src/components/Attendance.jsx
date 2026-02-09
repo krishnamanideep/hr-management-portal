@@ -16,7 +16,6 @@ import {
 } from 'lucide-react';
 import { db } from '../firebase';
 import { doc, setDoc } from 'firebase/firestore';
-import { logAudit } from '../utils/auditLogger';
 
 const Attendance = ({ employees, attendanceRecords }) => {
     const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
@@ -59,8 +58,6 @@ const Attendance = ({ employees, attendanceRecords }) => {
             await setDoc(doc(db, 'attendance', selectedDate), {
                 presentIds: newRecord
             });
-            const empName = employees.find(e => e.id === id)?.name || id;
-            await logAudit('ATTENDANCE_TOGGLE', `Toggled attendance for ${empName} on ${selectedDate}`, { before: currentRecord, after: newRecord });
         } catch (err) {
             console.error("Error updating attendance:", err);
             alert("Failed to update attendance.");
@@ -74,7 +71,6 @@ const Attendance = ({ employees, attendanceRecords }) => {
                 await setDoc(doc(db, 'attendance', selectedDate), {
                     presentIds: allIds
                 });
-                await logAudit('ATTENDANCE_MARK_ALL', `Marked all as PRESENT for ${selectedDate}`, { before: presentIds, after: allIds });
             } catch (err) {
                 console.error(err);
             }
@@ -87,7 +83,6 @@ const Attendance = ({ employees, attendanceRecords }) => {
                 await setDoc(doc(db, 'attendance', selectedDate), {
                     presentIds: []
                 });
-                await logAudit('ATTENDANCE_RESET', `Cleared attendance for ${selectedDate}`, { before: presentIds, after: [] });
             } catch (err) {
                 console.error(err);
             }

@@ -15,7 +15,6 @@ import { motion } from 'framer-motion';
 import { jsPDF } from 'jspdf';
 import { db } from '../firebase';
 import { doc, setDoc } from 'firebase/firestore';
-import { logAudit } from '../utils/auditLogger';
 
 const Payroll = ({ employees, attendanceRecords }) => {
     const [selectedMonth, setSelectedMonth] = useState(() => {
@@ -153,7 +152,6 @@ const Payroll = ({ employees, attendanceRecords }) => {
                 data: payrollData,
                 lockedAt: new Date().toISOString()
             });
-            await logAudit('PAYROLL_LOCK', `Locked payroll for ${selectedMonth}`, { before: null, after: { month: selectedMonth, staffCount: payrollData.length } });
             alert(`Payroll for ${selectedMonth} has been locked successfully.`);
         } catch (err) {
             console.error(err);

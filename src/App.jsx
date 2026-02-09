@@ -14,8 +14,6 @@ import Dashboard from './components/Dashboard';
 import EmployeeList from './components/EmployeeList';
 import Attendance from './components/Attendance';
 import DataImporter from './components/DataImporter';
-
-import AuditLog from './components/AuditLog';
 import { auth, db } from './firebase';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { collection, onSnapshot, query, doc, setDoc } from 'firebase/firestore';
@@ -95,8 +93,6 @@ function App() {
           />
         );
 
-      case 'audit':
-        return <AuditLog />;
       case 'import':
         return <DataImporter />;
       default:
@@ -120,8 +116,6 @@ function App() {
               {activeTab === 'dashboard' && 'Dashboard Overview'}
               {activeTab === 'employees' && 'Employee Directory'}
               {activeTab === 'attendance' && 'Attendance Tracker'}
-
-              {activeTab === 'audit' && 'System Audit Logs'}
               {activeTab === 'import' && 'Import Data'}
             </h1>
             <p style={{ color: 'var(--text-muted)' }}>Welcome back to your management panel</p>
