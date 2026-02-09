@@ -114,7 +114,7 @@ const Dashboard = ({ employees, attendanceRecords }) => {
                 <MetricCard
                     icon={Users}
                     title="Total Employees"
-                    value={employees.length}
+                    value={fieldTeamEmployees.length}
                     subtitle="Active workforce"
                     color="var(--accent)"
                 />
