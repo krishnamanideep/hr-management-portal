@@ -232,21 +232,6 @@ const DataImporter = () => {
                 </button>
                 <div style={{ marginTop: '3rem', display: 'flex', gap: '1rem', justifyContent: 'center' }}>
                     <button
-                        onClick={handleSeedStressData}
-                        disabled={loading || seeding}
-                        style={{
-                            background: 'transparent',
-                            border: 'none',
-                            color: 'var(--text-muted)',
-                            fontSize: '0.75rem',
-                            cursor: 'pointer',
-                            opacity: 0.5,
-                            textDecoration: 'underline'
-                        }}
-                    >
-                        [Dev] Seed 1k Employees
-                    </button>
-                    <button
                         onClick={handleSeedAttendance}
                         disabled={loading || seeding}
                         style={{
