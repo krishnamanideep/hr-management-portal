@@ -6,6 +6,13 @@
   <link rel="icon" type="image/png" href="/logo.png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>HR Management Portal</title>
+  <script>
+    // Error handler to catch and log any errors
+    window.addEventListener('error', function (e) {
+      console.error('Global error:', e.error);
+      document.body.innerHTML = '<div style="padding: 20px; font-family: Arial;"><h1>Error Loading Application</h1><p>' + e.error + '</p></div>';
+    });
+  </script>
 </head>
 
 <body>
