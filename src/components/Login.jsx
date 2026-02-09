@@ -5,9 +5,16 @@ import { auth } from '../firebase';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
 
 const Login = ({ onLogin }) => {
-    // ...
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [isRegistering, setIsRegistering] = useState(false);
+
     const handleSubmit = async (e) => {
-        // ...
+        e.preventDefault();
+        setError('');
+        setLoading(true);
         try {
             if (isRegistering) {
                 await createUserWithEmailAndPassword(auth, email, password);
